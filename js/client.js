@@ -1,4 +1,4 @@
-var socket = io.connect('http://localhost:8082');
+var socket = io.connect('http://'+NODEADDRESS+':'+NODEPORT);
 var game = new Game('#board', socket);
 var passcode;
 var userId;
@@ -17,13 +17,16 @@ socket.on('gameJoined', function(newUserId){
   userId = newUserId;
   $('#prompt').hide();
   $('#game').show();
+  /*
   checkGameReady = setInterval(function(){
     socket.emit('isGameReady',passcode);
   },15);
+  */
 })
 
 socket.on('initBoard', function(squares,usernames,flipped){
-  clearInterval(checkGameReady);
+  //clearInterval(checkGameReady);
+  console.log('initBoard');
   game.initBoard(squares,usernames,flipped);
 });
 
@@ -49,6 +52,7 @@ socket.on('potentialSquares', function(potentialSquares){
 });
 
 socket.on('reloadSquares', function(checker,originSquare,targetSquare){
+  console.log('reloadSquares');
   game.reloadSquares(checker,originSquare,targetSquare);
 });
 
