@@ -1,0 +1,2 @@
+var NODEADDRESS = '159.203.29.40';
+var NODEPORT = '8085';
