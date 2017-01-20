@@ -65,10 +65,11 @@ socket.on('updateChecker', function(checker){
 });
 
 socket.on('gameOver', function(winningId){
+  console.log('game over');
   if(winningId == userId){
-    $('#result').html('<h1>Winner!</h1>');
+    $('#result').html('<div class="animated infinite tada">Winner!</div>');
   }else{
-    $('#result').html('<h1>Loser :(</h1>');
+    $('#result').html('<div class="animated infinite swing">Loser :(</div>');
   }
   $('#results-container').show();
 })
