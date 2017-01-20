@@ -12,6 +12,13 @@ function Game(gameId, socket){
 }
 
 Game.prototype = {
+  resetBoard: function(){
+    $('#prompt').hide();
+    $('#results-overlay').hide();
+    this.$board.html('').removeClass('flipped');
+    this.setTurn();
+    $('#game').show();
+  },
   initBoard: function(squares,usernames,flipped){
     this.squares = squares;
     self = this;
@@ -113,9 +120,15 @@ Game.prototype = {
       checkerObj.element.remove();
     }
   },
-  setTurn: function(user){
-    this.isTurn = user.id == userId ? true : false;
-    turnLabel = user.username+'\'s Turn';
+  setTurn: function(user=null){
+    console.log(user);
+    if(user){
+
+    }else{
+
+    }
+    this.isTurn = user && user.id == userId ? true : false;
+    turnLabel = user ? user.username+'\'s Turn' : 'Waiting for Opponent';
     $('#display-turn').text(turnLabel);
     if(this.isTurn){
       $('#display-turn').addClass('animated');

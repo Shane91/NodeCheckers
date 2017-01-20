@@ -1,3 +1,6 @@
+body{
+  overflow:hidden;
+}
 
 #board-container{
   height:100vh;
@@ -98,7 +101,7 @@
 }
 
 
-#results-container{
+.overlay{
   position: absolute;
   top:0;
   left:0;
@@ -109,12 +112,13 @@
   z-index:1000;
 }
 
-#result{
+#results-container{
   position:absolute;
   top:50%;
   left:50%;
   transform:translate(-50%, -50%);
   font-size:50px;
+  text-align:center;
 }
 
 /*used for troubleshooting */

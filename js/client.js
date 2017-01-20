@@ -1,6 +1,7 @@
 var socket = io.connect('http://'+NODEADDRESS+':'+NODEPORT);
 var game = new Game('#board', socket);
 var passcode;
+var username;
 var userId;
 var checkGameReady;
 
@@ -15,8 +16,8 @@ socket.on('fullGame', function(){
 
 socket.on('gameJoined', function(newUserId){
   userId = newUserId;
-  $('#prompt').hide();
-  $('#game').show();
+  game.resetBoard();
+  
   /*
   checkGameReady = setInterval(function(){
     socket.emit('isGameReady',passcode);
@@ -26,7 +27,7 @@ socket.on('gameJoined', function(newUserId){
 
 socket.on('initBoard', function(squares,usernames,flipped){
   //clearInterval(checkGameReady);
-  console.log('initBoard');
+  //console.log('initBoard');
   game.initBoard(squares,usernames,flipped);
 });
 
@@ -52,7 +53,7 @@ socket.on('potentialSquares', function(potentialSquares){
 });
 
 socket.on('reloadSquares', function(checker,originSquare,targetSquare){
-  console.log('reloadSquares');
+  //console.log('reloadSquares');
   game.reloadSquares(checker,originSquare,targetSquare);
 });
 
@@ -65,13 +66,13 @@ socket.on('updateChecker', function(checker){
 });
 
 socket.on('gameOver', function(winningId){
-  console.log('game over');
+  //console.log('game over');
   if(winningId == userId){
     $('#result').html('<div class="animated infinite tada">Winner!</div>');
   }else{
     $('#result').html('<div class="animated infinite swing">Loser :(</div>');
   }
-  $('#results-container').show();
+  $('#results-overlay').show();
 })
 
 $(function(){
@@ -81,6 +82,10 @@ $(function(){
     joinGame(username, passcode, socket);
   });
 
+  $('#play-again').click(function(e){
+    e.preventDefault();
+    joinGame(username, passcode, socket);
+  })
 });
 
 $(window).on('beforeunload', function(){
