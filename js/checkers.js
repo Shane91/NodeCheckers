@@ -23,17 +23,12 @@ Game.prototype = {
     this.squares = squares;
     self = this;
 
-    maxSquareHeight = (self.$board.parent('#board-container').height()-self.$board.offset().top)/GAME_DIMENSION; //the max dimension that will work within the board height
-    maxSquareWidth = self.$board.parent('#board-container').width()/GAME_DIMENSION; //the max dimension that will work within the board width
-
-    squareDimension = maxSquareHeight <= maxSquareWidth ? maxSquareHeight : maxSquareWidth;
-    
     if(flipped){self.$board.addClass('flipped');}
     self.$board.html('');
     squareCount = 0;
     evenRow = true;
     $.each(squares, function(index, square){
-      var squareElement = $('<div class="square" style="height:'+squareDimension+'px;width:'+squareDimension+'px;"></div>');
+      var squareElement = $('<div class="square"></div>');
       if(square.playable){squareElement.addClass('black');}
       if(square.checker){
         var checkerElement = $('<div class="checker"><div class="checker-piece"></div></div>');
@@ -57,7 +52,18 @@ Game.prototype = {
 
     $('.username[data-team="1"]').text(usernames[0]+'\'s');
     $('.username[data-team="2"]').text(usernames[1]+'\'s');
-    
+    self.sizeSquares();
+  },
+  sizeSquares: function(){
+    self = this;
+    maxSquareHeight = (self.$board.parent('#board-container').height()-self.$board.offset().top)/GAME_DIMENSION; //the max dimension that will work within the board height
+    maxSquareWidth = self.$board.parent('#board-container').width()/GAME_DIMENSION; //the max dimension that will work within the board width
+
+    squareDimension = maxSquareHeight <= maxSquareWidth ? maxSquareHeight : maxSquareWidth;
+
+    $.each(self.squares, function(index, square){
+      square.element.height(squareDimension).width(squareDimension);
+    });
   },
   showPotentialMoves: function(potentialSquareIds){
     var potentialSquares = [];
@@ -135,12 +141,6 @@ Game.prototype = {
     }else{
       $('#display-turn').removeClass('animated');
     }
-  },
-  winner: function(){
-
-  },
-  loser: function(){
-
   }
 }
 
@@ -206,4 +206,8 @@ $('body').on('click','.square.possible-move',function(e){
   submitMove(moving,target);
   $('.square.possible-move').removeClass('possible-move animated');
   moving = null;
-})
+});
+
+$(window).resize(function(){
+  if(game){game.sizeSquares();}
+});

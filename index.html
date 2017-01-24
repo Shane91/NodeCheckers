@@ -13,6 +13,7 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
   <link rel="stylesheet" href="css/animate.css">
+  <link rel="stylesheet" href="css/sweetalert.css">
   <link rel="stylesheet" href="css/custom.css?v=1">
 
 </head>
@@ -44,18 +45,21 @@
     
   <div id="game" style="display:none;">
 
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-          <div id="board-container">
-            <div id="display-turn" class="pulse infinite"></div>
-            <div id="board">
-            </div>
-          </div>
-        </div>
-
-            
+    <div id="board-container"> 
+      <div id="board">
       </div>
+    </div>
+
+    <div id="hud">
+      <div id="display-turn" class="pulse infinite"></div>
+      <div id="chat-container">
+        <div id="chat">
+        </div>
+        <select disabled id="chat-dropdown" class="form-control">
+          <option value=""></option>
+        </select>
+      </div>
+      <button type="button" id="propose-tie" class="btn btn-danger">Propose Tie</button>
     </div>
   </div>
 
@@ -63,10 +67,12 @@
     <div id="results-container">
       <div id="result"></div>
       <button type="button" id="play-again" class="btn btn-primary btn-lg">Play Again</button>
+      <a href="." class="btn btn-warning btn-lg">Leave</a>
     </div>
   </div>
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script type="text/javascript" src="js/sweetalert.min.js"></script>
   <script type="text/javascript" src="js/socket.io.js"></script>
   <script type="text/javascript" src="js/uuid.js"></script>
   <script type="text/javascript" src="js/checkers.js"></script>

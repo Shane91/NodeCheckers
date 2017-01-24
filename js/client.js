@@ -3,7 +3,6 @@ var game = new Game('#board', socket);
 var passcode;
 var username;
 var userId;
-var checkGameReady;
 
 socket.on('*', function(event,data){
   console.log(event);
@@ -17,18 +16,27 @@ socket.on('fullGame', function(){
 socket.on('gameJoined', function(newUserId){
   userId = newUserId;
   game.resetBoard();
-  
-  /*
-  checkGameReady = setInterval(function(){
-    socket.emit('isGameReady',passcode);
-  },15);
-  */
 })
 
 socket.on('initBoard', function(squares,usernames,flipped){
-  //clearInterval(checkGameReady);
-  //console.log('initBoard');
   game.initBoard(squares,usernames,flipped);
+});
+
+socket.on('initChat', function(messages){
+  dropdown = $('#chat-dropdown');
+  dropdown.prop('disabled',false);
+  $.each(messages, function(index, message){
+    dropdown.append('<option>'+message+'</option>');
+  })
+})
+
+socket.on('displayMessage', function(message,originUserId){
+  var messageClass = userId == originUserId ? 'owner' : 'opponent';
+  var animationClass = userId == originUserId ? 'slideInRight' : 'slideInLeft';
+  var messageElement = $('<div class="message '+messageClass+'">'+message+'</div>');
+  messageElement.addClass('animated '+animationClass);
+  $('#chat').append(messageElement);
+  //messageElement.show("slow");
 });
 
 socket.on('opponentLeft', function(){
@@ -65,12 +73,36 @@ socket.on('updateChecker', function(checker){
   game.updateChecker(checker);
 });
 
+socket.on('proposeTie', function(user){
+  swal({
+    title: user+' has proposed a Tie Game.',
+    text: 'Do you accept?',
+    type: 'warning',
+    showCancelButton: true,
+    confirmButtonClass: 'btn-success',
+    confirmButtonText: 'Yes, I accept',
+    cancelButtonText: 'No'
+  },
+  function(isAccepted){
+    socket.emit('tieResponse',passcode, userId, isAccepted);
+  });
+});
+
+socket.on('tieNotAccepted', function(){
+  swal({
+    title: 'Tie Game has been declined.',
+    type: 'error'
+  });
+});
+
 socket.on('gameOver', function(winningId){
-  //console.log('game over');
+  swal.close();
   if(winningId == userId){
     $('#result').html('<div class="animated infinite tada">Winner!</div>');
-  }else{
+  }else if(winningId){
     $('#result').html('<div class="animated infinite swing">Loser :(</div>');
+  }else{
+    $('#result').html('<div class="animated infinite hinge">Tie Game</div>');
   }
   $('#results-overlay').show();
 })
@@ -78,8 +110,31 @@ socket.on('gameOver', function(winningId){
 $(function(){
   $('#join').click(function(e){
     username = $('#username').val();
-    passcode = $('#passcode').val();
+    passcode = $('#passcode').val().toLowerCase();
     joinGame(username, passcode, socket);
+  });
+
+  $('#chat-dropdown').change(function(){
+    dropdown = $(this);
+    if(dropdown.val() != ''){
+      socket.emit('sendMessage', passcode, userId, dropdown.val());
+      dropdown.val('');
+    }
+  });
+
+  $('#propose-tie').on('click', function(e){
+    swal({
+      title: "Propose a Tie Game?",
+      type: "warning",
+      showCancelButton: true,
+      closeOnConfirm: false,
+      confirmButtonText: 'Yes',
+      cancelButtonText: 'No',
+      showLoaderOnConfirm: true
+    },function(){
+      socket.emit('proposeTie', passcode, userId);
+    });
+    
   });
 
   $('#play-again').click(function(e){

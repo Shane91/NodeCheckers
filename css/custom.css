@@ -2,9 +2,143 @@ body{
   overflow:hidden;
 }
 
+#game{
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  align-content: center;
+}
+
 #board-container{
-  height:100vh;
-  text-align: center;
+  flex:4 4;
+  height:90vh;
+  text-align:center;
+}
+
+#hud{
+  padding:20px;
+  flex:3 3;
+}
+
+#chat-container{
+  margin-bottom:20px;
+}
+
+#chat{
+  overflow-x:hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-end;
+  border: 1px solid #000;
+  height:200px;
+  padding:15px;
+}
+
+#chat-dropdown{
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  border:1px solid #000;
+  border-top: none;
+}
+
+/*
+.message{
+  display: inline-block;
+  position: relative;
+  height: auto;
+  background-color: #FFF;
+  border: 1px solid #000;
+   border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  margin-top:5px;
+  padding:8px;
+}
+
+
+.message:before {
+  content: ' ';
+  position: absolute;
+  width: 0;
+  height: 0;
+  left: auto;
+  right: auto;
+  top: -1px;
+  bottom: auto;
+  border: 14px solid;
+  border-color: #000 transparent transparent transparent;
+}
+
+.message:after{
+  content: ' ';
+  position: absolute;
+  width: 0;
+  height: 0;
+  left: auto;
+  right: auto;
+  top: 0px;
+  bottom: auto;
+  border: 15px solid;
+  border-color: #FFF transparent transparent transparent;
+}
+*/
+
+.message{
+  display: inline-block;
+  position: relative;
+  height: auto;
+  background-color: #dadada;
+  margin-top:5px;
+  padding:8px 10px;
+  border-radius: 5px;
+  box-shadow:-1px 1px 2px 0 #666;
+}
+
+.message:after{
+  content: ' ';
+  position: absolute;
+  width: 0;
+  height: 0;
+  left: auto;
+  right: auto;
+  top: 0px;
+  bottom: auto;
+  border: 15px solid;
+  border-color: #dadada transparent transparent transparent;
+}
+
+.message.owner:before{
+  right: -15px;
+}
+
+.message.owner:after{
+  right: -12px;
+}
+
+.message.opponent{
+  align-self: flex-start;
+  box-shadow: 1px 1px 2px 0 #666;
+}
+
+.message.opponent:before{
+  left:-15px;
+}
+
+.message.opponent:after{
+  left: -12px;
+}
+
+/* talk bubble contents */
+.talktext{
+  padding: 1em;
+  text-align: left;
+  line-height: 1.5em;
+}
+.talktext p{
+  /* remove webkit p margins */
+  -webkit-margin-before: 0em;
+  -webkit-margin-after: 0em;
 }
 
 #board{display: inline-block;}
@@ -12,8 +146,9 @@ body{
 #board:after{clear:both;}
 
 #display-turn{
-  padding-top:15px;
   font-size:35px;
+  line-height:1em;
+  margin-bottom:15px;
   -webkit-font-smoothing: subpixel-antialiased;
 }
 
@@ -99,6 +234,12 @@ body{
   transform:translate(-50%, -50%) rotate(180deg);
 }
 
+
+
+
+#footer{
+  height:15vh;
+}
 
 .overlay{
   position: absolute;
