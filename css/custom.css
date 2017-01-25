@@ -88,7 +88,7 @@ body{
   display: inline-block;
   position: relative;
   height: auto;
-  background-color: #dadada;
+  color:#FFF;
   margin-top:5px;
   padding:8px 10px;
   border-radius: 5px;
@@ -108,26 +108,22 @@ body{
   border-color: #dadada transparent transparent transparent;
 }
 
-.message.owner:before{
-  right: -15px;
-}
+.message.red{background:#b30000;}
+.message.blue{background:#002db3;}
 
-.message.owner:after{
-  right: -12px;
-}
+.message.red:after{border-color: #b30000 transparent transparent transparent;}
+.message.blue:after{border-color: #002db3 transparent transparent transparent;}
+
+.message.owner:before{right: -15px;}
+.message.owner:after{right: -12px;}
 
 .message.opponent{
   align-self: flex-start;
   box-shadow: 1px 1px 2px 0 #666;
 }
 
-.message.opponent:before{
-  left:-15px;
-}
-
-.message.opponent:after{
-  left: -12px;
-}
+.message.opponent:before{left:-15px;}
+.message.opponent:after{left: -12px;}
 
 /* talk bubble contents */
 .talktext{

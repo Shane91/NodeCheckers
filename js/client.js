@@ -30,10 +30,10 @@ socket.on('initChat', function(messages){
   })
 })
 
-socket.on('displayMessage', function(message,originUserId){
+socket.on('displayMessage', function(message,originUserId,colour){
   var messageClass = userId == originUserId ? 'owner' : 'opponent';
   var animationClass = userId == originUserId ? 'slideInRight' : 'slideInLeft';
-  var messageElement = $('<div class="message '+messageClass+'">'+message+'</div>');
+  var messageElement = $('<div class="message '+messageClass+' '+colour+'">'+message+'</div>');
   messageElement.addClass('animated '+animationClass);
   $('#chat').append(messageElement);
   //messageElement.show("slow");
@@ -86,6 +86,13 @@ socket.on('proposeTie', function(user){
   function(isAccepted){
     socket.emit('tieResponse',passcode, userId, isAccepted);
   });
+});
+
+socket.on('cannotProposeTie', function(){
+  swal({
+    title: 'You can not propose another Tie Game yet.',
+    type: 'error'
+  })
 });
 
 socket.on('tieNotAccepted', function(){
