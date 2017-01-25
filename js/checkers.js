@@ -15,6 +15,8 @@ Game.prototype = {
   resetBoard: function(){
     $('#prompt').hide();
     $('#results-overlay').hide();
+    $('#chat-container').hide();
+    $('#propose-tie').hide();
     this.$board.html('').removeClass('flipped');
     this.setTurn();
     $('#game').show();
@@ -50,8 +52,8 @@ Game.prototype = {
     });
     self.$board.append('<div class="clearfix"></div>');
 
-    $('.username[data-team="1"]').text(usernames[0]+'\'s');
-    $('.username[data-team="2"]').text(usernames[1]+'\'s');
+    $('#propose-tie').show();
+    $('#chat-container').show();
     self.sizeSquares();
   },
   sizeSquares: function(){

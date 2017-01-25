@@ -23,7 +23,9 @@ socket.on('initBoard', function(squares,usernames,flipped){
 });
 
 socket.on('initChat', function(messages){
+  $('#chat').html('');
   dropdown = $('#chat-dropdown');
+  dropdown.html('<option value=""></option>');
   dropdown.prop('disabled',false);
   $.each(messages, function(index, message){
     dropdown.append('<option>'+message+'</option>');
